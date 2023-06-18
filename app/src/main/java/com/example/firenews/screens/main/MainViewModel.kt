@@ -1,4 +1,4 @@
-package com.example.firenews.viewModel
+package com.example.firenews.screens.main
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
