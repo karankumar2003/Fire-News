@@ -9,11 +9,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
-fun BottomNavigation(
+fun BottomNavigationBar(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    items: List<BottomNavIcon>,
-    onNavIconClick: (BottomNavIcon) -> Unit
+    items: List<BottomNavIcon>
 ) {
     NavigationBar(
         modifier = modifier,
@@ -26,12 +25,22 @@ fun BottomNavigation(
             val selected = backStackEntry.value?.destination?.route
 
             NavigationBarItem(
-                selected = it.route == selected ,
-                onClick = {
-                    onNavIconClick(it)
-                },
+                selected = it.route == selected,
                 icon = {
                     Icon(it.icon,it.label)
+                },
+                onClick = {
+
+                        navController.navigate(it.route){
+                            popUpTo(navController.graph.startDestinationId){
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+
+
+
                 }
             )
         }

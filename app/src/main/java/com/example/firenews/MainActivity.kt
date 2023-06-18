@@ -20,14 +20,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.firenews.navigation.BottomNavHost
 import com.example.firenews.navigation.BottomNavIcon
-import com.example.firenews.navigation.BottomNavigation
+import com.example.firenews.navigation.BottomNavigationBar
 import com.example.firenews.screens.NewsScreens
 import com.example.firenews.ui.theme.FireNewsTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -64,16 +63,10 @@ class MainActivity : ComponentActivity() {
 
                     Scaffold(
                         bottomBar = {
-                            BottomNavigation(
+                            BottomNavigationBar(
                                 navController = navController,
                                 items = navItems,
-                                onNavIconClick = {
-                                    navController.navigate(it.route) {
-                                        popUpTo(navController.graph.startDestinationId) {
-                                            inclusive = false
-                                        }
-                                    }
-                                })
+                                )
                         }
                     ) {
                         BottomNavHost(
@@ -84,15 +77,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    FireNewsTheme {
-
-
     }
 }
