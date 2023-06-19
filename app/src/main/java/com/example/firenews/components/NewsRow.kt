@@ -34,10 +34,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
+import com.example.firenews.R
 import com.example.firenews.models.Article
 import com.example.firenews.models.Source
 
@@ -140,11 +143,11 @@ fun NewsRow(modifier: Modifier = Modifier, newsArticle: Article) {
                             Text("Copy Link")
                         },
                             onClick = {
-//                                localClipBoardManager.setText(AnnotatedString(newsArticle.url))
+                                localClipBoardManager.setText(AnnotatedString(newsArticle.url?:"No link available"))
                                 Toast.makeText(context,"Link copied to clipboard",Toast.LENGTH_SHORT).show()
                             },
                             leadingIcon = {
-//                                Icon(painterResource(id = R.drawable.link_icon),"Share")
+                                Icon(painterResource(id = R.drawable.link_icon),"Share")
                             }
                         )
                     }

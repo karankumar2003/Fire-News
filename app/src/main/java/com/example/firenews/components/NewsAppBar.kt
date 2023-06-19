@@ -10,9 +10,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import java.util.LinkedList
 import java.util.Queue
@@ -22,7 +27,8 @@ import java.util.Queue
 fun NewsAppBar(
     title:String,
     isMainScreen: Boolean,
-    navController:NavHostController
+    navController:NavHostController,
+    modifier: Modifier = Modifier
 
 ) {
     CenterAlignedTopAppBar(
@@ -35,7 +41,8 @@ fun NewsAppBar(
                     Icon(Icons.Default.ArrowBack,"Go Back")
                 }
             }
-        }
+        },
+        modifier = modifier
 
     )
 }

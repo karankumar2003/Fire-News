@@ -14,10 +14,13 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,17 +34,19 @@ import androidx.navigation.NavHostController
 import com.example.firenews.components.NewsAppBar
 import com.example.firenews.components.NewsRow
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
     navController: NavHostController,
     searchViewModel: SearchViewModel = hiltViewModel()
 ) {
+
     Scaffold(
         topBar = {
             NewsAppBar(title = "Search News", isMainScreen = false, navController = navController)
         }
     ) {
-        Column() {
+        Column(Modifier.padding(10.dp)) {
             SearchField(
                 onSearch = {
                     searchViewModel.searchNews(it)
