@@ -29,11 +29,14 @@ class SearchViewModel @Inject constructor(private val repository: NewsRepository
 
         }
 
+    var isPaginationLoading by mutableStateOf(false)
+
     fun searchNextPage(searchQuery:String) =
         viewModelScope.launch {
-            val response = repository.searchNews(searchQuery, page = page)
-
+            isPaginationLoading = true
+            val response = repository.searchNews(searchQuery, page = 2)
             newsList += response.data?.articles ?: emptyList()
+            isPaginationLoading = false
             page++
             Log.d("MainViewModel", "getNextPage: $page")
         }

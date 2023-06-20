@@ -77,6 +77,13 @@ fun MainScreen(
                         item
                     )
                 }
+                if (mainViewModel.isPaginationLoading){
+                    item {
+                        Box(Modifier.fillMaxSize()){
+                            CircularProgressIndicator(Modifier.align(Alignment.BottomCenter))
+                        }
+                    }
+                }
             }
 
             PullRefreshIndicator(

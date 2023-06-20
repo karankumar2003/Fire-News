@@ -1,7 +1,9 @@
 package com.example.firenews.screens.main
 
 import android.util.Log
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.firenews.data.DataOrException
@@ -32,6 +34,8 @@ class MainViewModel @Inject constructor(private val repository: NewsRepository) 
         getNews()
     }
 
+    var isPaginationLoading by mutableStateOf(false)
+
     fun getNews() =
         viewModelScope.launch {
             result.emit(DataOrException(result.value.data, true, null))
@@ -42,10 +46,11 @@ class MainViewModel @Inject constructor(private val repository: NewsRepository) 
 
     fun getNextPage() =
         viewModelScope.launch {
-            val newResponse = repository.getNews(page = page)
+            isPaginationLoading = true
+            val newResponse = repository.getNews(page = 2)
             list.value += newResponse.data?.articles ?: emptyList()
+            isPaginationLoading = false
             page++
-            Log.d("MainViewModel", "getNextPage: $page")
         }
 
 
