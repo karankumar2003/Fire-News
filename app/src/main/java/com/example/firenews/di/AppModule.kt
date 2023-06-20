@@ -17,8 +17,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class AppModule {
 
-
-
     @Provides
     @Singleton
     fun providesNewsApi(): NewsApi {

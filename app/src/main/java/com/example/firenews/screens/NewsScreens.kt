@@ -1,8 +1,12 @@
 package com.example.firenews.screens
 
 enum class NewsScreens {
-    MainScreen,
+    HomeScreen,
     SavedScreen,
     SettingScreen,
-    SearchScreen
+    SearchScreen,
+    LogInScreen,
+    CreateAccountScreen,
+    SplashScreen,
+    MainScreen
 }

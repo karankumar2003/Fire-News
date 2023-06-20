@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.firenews.screens.main.MainScreen
+import com.example.firenews.screens.home.HomeScreen
 import com.example.firenews.screens.NewsScreens
 import com.example.firenews.screens.saved.SavedScreen
 import com.example.firenews.screens.search.SearchScreen
@@ -20,12 +20,12 @@ fun BottomNavHost(
 
     NavHost(
         navController = navController,
-        startDestination = NewsScreens.MainScreen.name,
+        startDestination = NewsScreens.HomeScreen.name,
         modifier = modifier
     ) {
 
-        composable(NewsScreens.MainScreen.name) {
-            MainScreen(navController = navController)
+        composable(NewsScreens.HomeScreen.name) {
+            HomeScreen(navController = navController)
         }
         composable(NewsScreens.SavedScreen.name) {
             SavedScreen(navController)

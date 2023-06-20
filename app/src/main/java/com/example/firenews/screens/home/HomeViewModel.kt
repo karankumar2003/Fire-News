@@ -1,6 +1,5 @@
-package com.example.firenews.screens.main
+package com.example.firenews.screens.home
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -16,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val repository: NewsRepository) : ViewModel() {
+class HomeViewModel @Inject constructor(private val repository: NewsRepository) : ViewModel() {
 
     var page = 2
 

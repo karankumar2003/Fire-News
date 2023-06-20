@@ -4,24 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.example.firenews.navigation.BottomNavHost
-import com.example.firenews.navigation.BottomNavIcon
-import com.example.firenews.navigation.BottomNavigationBar
-import com.example.firenews.screens.NewsScreens
+import com.example.firenews.navigation.NewsAppNavigation
 import com.example.firenews.ui.theme.FireNewsTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,43 +24,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    val navItems = listOf(
-                        BottomNavIcon(
-                            "Home",
-                            NewsScreens.MainScreen.name,
-                            Icons.Default.Home
-                        )
-                        ,
-                        BottomNavIcon(
-                            "Search",
-                            NewsScreens.SearchScreen.name,
-                            Icons.Default.Search
-                        ),
-                        BottomNavIcon(
-                            "Saved",
-                            NewsScreens.SavedScreen.name,
-                            Icons.Default.Favorite
-                        ),
-                        BottomNavIcon(
-                            "Settings",
-                            NewsScreens.SettingScreen.name,
-                            Icons.Default.Settings
-                        )
-                    )
-
-                    Scaffold(
-                        bottomBar = {
-                            BottomNavigationBar(
-                                navController = navController,
-                                items = navItems,
-                                )
-                        }
-                    ) {
-                        BottomNavHost(
-                            navController = navController,
-                            modifier = Modifier.padding(it)
-                        )
-                    }
+                    NewsAppNavigation(navController)
                 }
             }
         }
