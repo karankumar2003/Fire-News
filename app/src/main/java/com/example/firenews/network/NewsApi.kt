@@ -12,7 +12,8 @@ interface NewsApi {
         @Query("country") country: String = "in",
         @Query("language") language: String = "en",
         @Query("page") page: Int = 1,
-        @Query("apikey") apiKey: String = API_KEY
+        @Query("apikey") apiKey: String = API_KEY,
+        @Query("category") category : String = "general"
     ): NewsResponse
 
     @GET("/v2/everything")
@@ -20,6 +21,7 @@ interface NewsApi {
         @Query("language") language: String = "en",
         @Query("page") page: Int = 1,
         @Query("apikey") apiKey: String = API_KEY,
-        @Query("q") searchQuery : String = ""
+        @Query("q") searchQuery : String = "",
+        @Query("pageSize") pageSize : Int = 20
     ): NewsResponse
 }

@@ -15,9 +15,6 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,38 +24,35 @@ import androidx.navigation.NavHostController
 import com.example.firenews.components.NewsRow
 import com.example.firenews.models.Article
 
-@OptIn( ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MainScreen(
     mainViewModel: MainViewModel = hiltViewModel(),
     navController: NavHostController
 ) {
 
-    val response = mainViewModel.response
+    val response = mainViewModel.result.collectAsState()
+
     val context = LocalContext.current
-    Log.d("SearchScreen", "MainScreen: ${response.loading}")
 
 
-    val pullRefreshState  = rememberPullRefreshState(
-        refreshing = response.loading!! && !response.data?.articles.isNullOrEmpty(),
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = response.value.loading!! && !response.value.data?.articles.isNullOrEmpty(),
         onRefresh = {
             mainViewModel.getNews()
-            Toast.makeText(context,"Refreshing",Toast.LENGTH_SHORT).show()
-    }
+            Toast.makeText(context, "Refreshing", Toast.LENGTH_SHORT).show()
+        }
     )
 
 
-    if (response.loading == true && response.data?.articles.isNullOrEmpty())
-    {
-        Box(Modifier.fillMaxSize()){
+    if (response.value.loading == true && response.value.data?.articles.isNullOrEmpty()) {
+        Box(Modifier.fillMaxSize()) {
             CircularProgressIndicator(Modifier.align(Alignment.Center))
         }
 
     } else {
 
-        Box(
-
-        ) {
+        Box {
 
             LazyColumn(
                 modifier = Modifier
@@ -67,26 +61,26 @@ fun MainScreen(
 
             ) {
 
-                itemsIndexed(items = response.data?.articles!!) { index: Int, item: Article ->
+                itemsIndexed(items = mainViewModel.list.value) { index: Int, item: Article ->
+                    Log.d("MainScreen", "MainScreen: ${mainViewModel.list.value.size}")
+                    Log.d("MainScreen", "MainScreen: index ${index}")
+
+                    if(index == mainViewModel.list.value.lastIndex){
+
+                            mainViewModel.getNextPage()
+
+                    }
+
                     NewsRow(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-
-                                val intent = CustomTabsIntent
-                                    .Builder()
-                                    .build()
-                                intent.intent.`package` = "com.android.chrome"
-                                intent.launchUrl(context, Uri.parse(item.url))
-
-                            },
+                            .fillMaxWidth(),
                         item
                     )
                 }
             }
 
             PullRefreshIndicator(
-                refreshing = response.loading ?: false,
+                refreshing = response.value.loading ?: false,
                 state = pullRefreshState,
                 modifier = Modifier.align(Alignment.TopCenter)
             )

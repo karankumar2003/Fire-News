@@ -8,9 +8,11 @@ import javax.inject.Inject
 
 class NewsRepository @Inject constructor(private val api: NewsApi) {
 
-    suspend fun getNews():DataOrException<NewsResponse,Boolean,Exception> {
+    suspend fun getNews(
+        page:Int = 1
+    ):DataOrException<NewsResponse,Boolean,Exception> {
         val response = try {
-             api.getNews()
+             api.getNews(page = page)
 
         }catch (e:Exception){
             return DataOrException(loading = false,exception = e)
@@ -19,9 +21,9 @@ class NewsRepository @Inject constructor(private val api: NewsApi) {
 
     }
 
-    suspend fun searchNews(searchQuery:String):DataOrException<NewsResponse,Boolean,Exception> {
+    suspend fun searchNews(searchQuery:String,page: Int = 1):DataOrException<NewsResponse,Boolean,Exception> {
         val response = try {
-            api.searchNews(searchQuery = searchQuery)
+            api.searchNews(searchQuery = searchQuery, page = page)
 
         }catch (e:Exception){
             return DataOrException(loading = false,exception = e)

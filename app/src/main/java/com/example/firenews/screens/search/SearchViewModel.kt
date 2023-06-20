@@ -16,6 +16,7 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(private val repository: NewsRepository): ViewModel() {
 
     var newsList by mutableStateOf<List<Article>>(emptyList())
+    var page = 2
 
 
 
@@ -23,12 +24,18 @@ class SearchViewModel @Inject constructor(private val repository: NewsRepository
         viewModelScope.launch {
             val response = repository.searchNews(searchQuery)
 
-            newsList = if(response.data!= null){
-                response.data.articles
-            }else{
-                emptyList()
-            }
-            Log.d("SearchScreen", "SearchViewModel response: ${response.exception?.message}")
+
+            newsList = response.data?.articles ?: emptyList()
+
+        }
+
+    fun searchNextPage(searchQuery:String) =
+        viewModelScope.launch {
+            val response = repository.searchNews(searchQuery, page = page)
+
+            newsList += response.data?.articles ?: emptyList()
+            page++
+            Log.d("MainViewModel", "getNextPage: $page")
         }
 
 }

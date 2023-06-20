@@ -1,8 +1,11 @@
 package com.example.firenews.components
 
 import android.content.Intent
+import android.net.Uri
 import android.widget.Toast
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,11 +50,20 @@ import com.example.firenews.models.Source
 
 @Composable
 fun NewsRow(modifier: Modifier = Modifier, newsArticle: Article) {
-
+val context = LocalContext.current
     Card(
         modifier = modifier
             .padding(5.dp)
             .fillMaxWidth()
+            .clickable {
+
+                val intent = CustomTabsIntent
+                    .Builder()
+                    .build()
+                intent.intent.`package` = "com.android.chrome"
+                intent.launchUrl(context, Uri.parse(newsArticle.url))
+
+            }
     ) {
         Column(
             modifier = modifier

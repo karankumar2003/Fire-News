@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -22,9 +23,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -47,9 +51,14 @@ fun SearchScreen(
         }
     ) {
         Column(Modifier.padding(10.dp)) {
+            var searchQuery by remember{
+                mutableStateOf("")
+            }
+
             SearchField(
                 onSearch = {
                     searchViewModel.searchNews(it)
+                    searchQuery = it
                 }, modifier = Modifier
                     .fillMaxWidth()
                     .padding(it)
@@ -61,11 +70,18 @@ fun SearchScreen(
 
             Log.d("SearchScreen", "SearchScreen: ${newsList.size}")
             LazyColumn(Modifier.fillMaxSize()) {
-//            if(newsList.isNotEmpty()){
-                items(newsList) { article ->
+
+
+                itemsIndexed(newsList) {index, article ->
+
+                    if(index == searchViewModel.newsList.lastIndex){
+
+                        searchViewModel.searchNextPage(searchQuery)
+
+                    }
+
                     NewsRow(newsArticle = article)
                 }
-//            }
 
             }
 

@@ -1,30 +1,32 @@
 package com.example.firenews.screens.main
 
-import androidx.compose.runtime.getValue
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.firenews.data.DataOrException
 import com.example.firenews.models.Article
 import com.example.firenews.models.NewsResponse
-import com.example.firenews.models.Source
 import com.example.firenews.repository.NewsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(private val repository: NewsRepository) : ViewModel() {
 
-    var response by mutableStateOf(
-        DataOrException(
-           data =  NewsResponse(emptyList(),"",-1),
-           loading = true,
-           exception = Exception("")
+    var page = 2
+
+    var result: MutableStateFlow<DataOrException<NewsResponse, Boolean, Exception>> =
+        MutableStateFlow(
+            DataOrException(
+                NewsResponse(emptyList(), "", -1),
+                true,
+                null
+            )
         )
-    )
+    val list = mutableStateOf<List<Article>>(emptyList())
 
     init {
         getNews()
@@ -32,14 +34,19 @@ class MainViewModel @Inject constructor(private val repository: NewsRepository) 
 
     fun getNews() =
         viewModelScope.launch {
-
-            response = DataOrException(response.data,true,null)
-
-            response = repository.getNews()
-
-
+            result.emit(DataOrException(result.value.data, true, null))
+            val response = repository.getNews()
+            list.value = response.data?.articles ?: emptyList()
+            result.emit(response)
         }
 
+    fun getNextPage() =
+        viewModelScope.launch {
+            val newResponse = repository.getNews(page = page)
+            list.value += newResponse.data?.articles ?: emptyList()
+            page++
+            Log.d("MainViewModel", "getNextPage: $page")
+        }
 
 
 }
