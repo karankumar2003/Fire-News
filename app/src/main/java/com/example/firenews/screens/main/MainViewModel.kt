@@ -33,7 +33,7 @@ class MainViewModel @Inject constructor(private val repository: NewsRepository) 
     fun getNews() =
         viewModelScope.launch {
 
-            response.loading = true
+            response = DataOrException(response.data,true,null)
 
             response = repository.getNews()
 

@@ -40,7 +40,7 @@ fun MainScreen(
 
 
     val pullRefreshState  = rememberPullRefreshState(
-        refreshing = response.loading ?: false,
+        refreshing = response.loading!! && !response.data?.articles.isNullOrEmpty(),
         onRefresh = {
             mainViewModel.getNews()
             Toast.makeText(context,"Refreshing",Toast.LENGTH_SHORT).show()
@@ -48,8 +48,8 @@ fun MainScreen(
     )
 
 
-    if (response.loading == true) {
-
+    if (response.loading == true && response.data?.articles.isNullOrEmpty())
+    {
         Box(Modifier.fillMaxSize()){
             CircularProgressIndicator(Modifier.align(Alignment.Center))
         }
