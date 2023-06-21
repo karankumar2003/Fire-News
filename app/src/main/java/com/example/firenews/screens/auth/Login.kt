@@ -48,7 +48,7 @@ fun LogInScreen(
             buttonText = "Sign In",
             onButtonClick = { email, password ->
                 authViewModel.signInWithEmailAndPassword(email,password){
-                    navController.navigate(NewsScreens.HomeScreen.name)
+                    navController.navigate(NewsScreens.MainScreen.name)
                 }
             },
             newUserText = "Don't have an account? ",

@@ -11,8 +11,10 @@ import com.example.firenews.screens.saved.SavedScreen
 import com.example.firenews.screens.search.SearchScreen
 import com.example.firenews.screens.setting.SettingScreen
 
+
 @Composable
 fun BottomNavHost(
+    authNavController:NavHostController,
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
@@ -31,10 +33,10 @@ fun BottomNavHost(
             SavedScreen(navController)
         }
         composable(NewsScreens.SettingScreen.name) {
-            SettingScreen(navController)
+            SettingScreen(navController=navController,authNavController = authNavController)
         }
         composable(NewsScreens.SearchScreen.name) {
-            SearchScreen(navController)
+            SearchScreen(navController= navController)
         }
     }
 }

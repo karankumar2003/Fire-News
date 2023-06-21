@@ -17,9 +17,10 @@ import com.example.firenews.R
 import com.example.firenews.screens.NewsScreens
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
+import javax.inject.Inject
 
 @Composable
-fun SplashScreen(navController: NavHostController) {
+fun SplashScreen (navController: NavHostController) {
     Box(modifier = Modifier.fillMaxSize()) {
         Lottie(
             modifier = Modifier

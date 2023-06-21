@@ -26,7 +26,8 @@ fun NewsAppNavigation(
             CreateAccountScreen(navController = navController)
         }
         composable(NewsScreens.MainScreen.name){
-            MainScreen()
+            MainScreen(authNavController = navController)
+            //AuthNavController is the outer navController( with logInScreen)
         }
 
     }

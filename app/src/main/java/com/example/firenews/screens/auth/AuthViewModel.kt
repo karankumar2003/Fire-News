@@ -10,14 +10,16 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AuthViewModel : ViewModel() {
+@HiltViewModel
+class AuthViewModel @Inject constructor(private val firestore: FirebaseFirestore, private val auth: FirebaseAuth) : ViewModel() {
 
     private val _loading = MutableLiveData(false)
     val loading: LiveData<Boolean> = _loading
 
-    private val auth: FirebaseAuth = Firebase.auth
 
     fun signInWithEmailAndPassword(email: String, password: String, onDone: () -> Unit) =
         viewModelScope.launch {
@@ -78,9 +80,22 @@ class AuthViewModel : ViewModel() {
             id = null
         ).toMap()
 
-        FirebaseFirestore.getInstance()
+        firestore
             .collection("users")
-            .add(user)
+            .document(userId!!)
+            .set(user)
+            .addOnSuccessListener {
+                Log.d(
+                    "AuthViewModel",
+                    "createUser:  Successful in Creating User in firestore "
+                )
+            }
+            .addOnFailureListener{
+                Log.d(
+                    "AuthViewModel",
+                    "createUserWithEmailAndPassword: Not Successful in Creating User in firestore"
+                )
+            }
 
     }
 

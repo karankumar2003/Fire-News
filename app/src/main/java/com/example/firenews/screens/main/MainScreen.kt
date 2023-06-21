@@ -17,7 +17,9 @@ import com.example.firenews.navigation.BottomNavigationBar
 import com.example.firenews.screens.NewsScreens
 
 @Composable
-fun MainScreen() {
+fun MainScreen(authNavController: NavHostController) {
+    //This is the outer navController( with logInScreen)
+
 
     val navItems = listOf(
         BottomNavIcon(
@@ -42,7 +44,10 @@ fun MainScreen() {
             Icons.Default.Settings
         )
     )
+
 val navController = rememberNavController()
+    // This is the inner navController for the search,saved,home,setting screens
+    // different navController for different navHosts
     Scaffold(
         bottomBar = {
             BottomNavigationBar(
@@ -52,6 +57,7 @@ val navController = rememberNavController()
         }
     ) {
         BottomNavHost(
+            authNavController = authNavController,
             navController = navController,
             modifier = Modifier.padding(it)
         )

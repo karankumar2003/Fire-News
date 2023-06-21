@@ -3,6 +3,8 @@ package com.example.firenews.di
 import com.example.firenews.network.NewsApi
 import com.example.firenews.repository.NewsRepository
 import com.example.firenews.util.Constants.Companion.BASE_URL
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,5 +39,13 @@ class AppModule {
     fun providesNewsRepository(api: NewsApi): NewsRepository {
         return NewsRepository(api)
     }
+
+    @Provides
+    @Singleton
+    fun providesFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
+
+    @Provides
+    @Singleton
+    fun providesFirebaseFirestore(): FirebaseFirestore = FirebaseFirestore.getInstance()
 
 }

@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Card
@@ -46,6 +47,8 @@ import coil.compose.rememberImagePainter
 import com.example.firenews.R
 import com.example.firenews.models.Article
 import com.example.firenews.models.Source
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 @Composable
@@ -160,6 +163,18 @@ val context = LocalContext.current
                             },
                             leadingIcon = {
                                 Icon(painterResource(id = R.drawable.link_icon),"Share")
+                            }
+                        )
+                        DropdownMenuItem(text = {
+                            Text("Save Article")
+                        },
+                            onClick = {
+                                val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+                                FirebaseFirestore.getInstance().collection("users").document(currentUserId!!).collection("articles").add(newsArticle)
+                                Toast.makeText(context,"Article Saved",Toast.LENGTH_SHORT).show()
+                            },
+                            leadingIcon = {
+                                Icon(Icons.Default.FavoriteBorder,"Save")
                             }
                         )
                     }
