@@ -14,9 +14,10 @@ data class Article(
     val url: String?,
     @get:PropertyName("url_to_image")
     @set:PropertyName("url_to_image")
-    var urlToImage: String?
-)
-{
+    var urlToImage: String?,
+    var time: Long? = null,
+    var uniqueIdentifier: String? = null
+) {
     constructor() : this(
         author = null,
         content = null,
@@ -25,6 +26,8 @@ data class Article(
         source = null,
         title = null,
         url = null,
-        urlToImage = null
+        urlToImage = null,
+        time = null,
+        uniqueIdentifier = null
     )
 }

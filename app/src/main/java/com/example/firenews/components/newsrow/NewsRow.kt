@@ -1,4 +1,4 @@
-package com.example.firenews.components
+package com.example.firenews.components.newsrow
 
 import android.content.Intent
 import android.net.Uri
@@ -43,17 +43,20 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberImagePainter
 import com.example.firenews.R
 import com.example.firenews.models.Article
 import com.example.firenews.models.Source
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 
 
 @Composable
-fun NewsRow(modifier: Modifier = Modifier, newsArticle: Article) {
-val context = LocalContext.current
+fun NewsRow(
+    modifier: Modifier = Modifier,
+    newsArticle: Article,
+    newsRowViewModel: NewsRowViewModel = hiltViewModel()
+) {
+    val context = LocalContext.current
     Card(
         modifier = modifier
             .padding(5.dp)
@@ -140,17 +143,17 @@ val context = LocalContext.current
                             Text("Share")
                         },
                             onClick = {
-                                   val intent = Intent()
+                                val intent = Intent()
                                 intent.action = Intent.ACTION_SEND
-                                intent.putExtra(Intent.EXTRA_TEXT,newsArticle.url)
+                                intent.putExtra(Intent.EXTRA_TEXT, newsArticle.url)
                                 intent.setType("text/plain")
 
-                                if(intent.resolveActivity(context.packageManager)!=null){
+                                if (intent.resolveActivity(context.packageManager) != null) {
                                     context.startActivity(intent)
                                 }
                             },
                             leadingIcon = {
-                                Icon(Icons.Default.Share,"Share")
+                                Icon(Icons.Default.Share, "Share")
                             }
                         )
 
@@ -158,23 +161,29 @@ val context = LocalContext.current
                             Text("Copy Link")
                         },
                             onClick = {
-                                localClipBoardManager.setText(AnnotatedString(newsArticle.url?:"No link available"))
-                                Toast.makeText(context,"Link copied to clipboard",Toast.LENGTH_SHORT).show()
+                                localClipBoardManager.setText(
+                                    AnnotatedString(
+                                        newsArticle.url ?: "No link available"
+                                    )
+                                )
+                                Toast.makeText(
+                                    context,
+                                    "Link copied to clipboard",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             },
                             leadingIcon = {
-                                Icon(painterResource(id = R.drawable.link_icon),"Share")
+                                Icon(painterResource(id = R.drawable.link_icon), "Share")
                             }
                         )
                         DropdownMenuItem(text = {
                             Text("Save Article")
                         },
                             onClick = {
-                                val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
-                                FirebaseFirestore.getInstance().collection("users").document(currentUserId!!).collection("articles").add(newsArticle)
-                                Toast.makeText(context,"Article Saved",Toast.LENGTH_SHORT).show()
+                                      newsRowViewModel.saveArticle(newsArticle, context)
                             },
                             leadingIcon = {
-                                Icon(Icons.Default.FavoriteBorder,"Save")
+                                Icon(Icons.Default.FavoriteBorder, "Save")
                             }
                         )
                     }

@@ -12,15 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.firenews.components.NewsRow
-import com.example.firenews.models.Article
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import com.example.firenews.components.newsrow.NewsRow
 
 @Composable
 fun SavedScreen(navController: NavHostController,savedViewModel: SavedViewModel= hiltViewModel()) {
     Scaffold() {
 
+        savedViewModel.getNewsInRealTime()
         val savedNewsList = savedViewModel.savedNewsList
 
         Log.d("SavedScreen", "savedNewsList size: ${savedNewsList.value.size} ")

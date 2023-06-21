@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.firenews.components.NewsRow
+import com.example.firenews.components.newsrow.NewsRow
 import com.example.firenews.models.Article
 
 @OptIn(ExperimentalMaterialApi::class)
