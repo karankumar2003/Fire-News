@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -26,12 +28,14 @@ fun SettingScreen(navController: NavHostController, mainNavController: NavHostCo
 
     Scaffold(
         topBar = {
+            Surface(shadowElevation = 1.dp) {
 
-            NewsAppBar(
-                title = "Setting",
-                isMainScreen = false,
-                navController = navController
-            )
+                NewsAppBar(
+                    title = "Setting",
+                    isMainScreen = false,
+                    navController = navController
+                )
+            }
         }
     ) {
         Column(
@@ -52,7 +56,7 @@ fun SettingScreen(navController: NavHostController, mainNavController: NavHostCo
 
                         mainNavController.navigate(AppGraphs.Auth.name) {
                             popUpTo(AppGraphs.Main.name) {
-                             inclusive = true
+                                inclusive = true
                             }
                         }
 
@@ -61,7 +65,9 @@ fun SettingScreen(navController: NavHostController, mainNavController: NavHostCo
                 Text(
                     "Sign Out", modifier = Modifier
                         .align(Alignment.CenterStart)
-                        .padding(vertical = 15.dp), fontSize = 18.sp
+                        .padding(vertical = 15.dp),
+                    fontSize = 18.sp,
+                    color = Color.Red
                 )
             }
 

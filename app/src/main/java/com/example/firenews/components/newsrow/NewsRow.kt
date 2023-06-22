@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Share
@@ -56,6 +57,7 @@ fun NewsRow(
     newsArticle: Article,
     newsRowViewModel: NewsRowViewModel = hiltViewModel()
 ) {
+
     val context = LocalContext.current
     Card(
         modifier = modifier
@@ -177,13 +179,22 @@ fun NewsRow(
                             }
                         )
                         DropdownMenuItem(text = {
-                            Text("Save Article")
+                            newsRowViewModel.checkIfAlreadySaved(newsArticle)
+                            if(newsRowViewModel.isAlreadySaved.value == true){
+                                Text("Remove From Saved")
+                            }else{
+                                Text("Save Article")
+                            }
                         },
                             onClick = {
-                                      newsRowViewModel.saveArticle(newsArticle, context)
+                                      newsRowViewModel.handleSaveArticle(newsArticle, context)
                             },
                             leadingIcon = {
-                                Icon(Icons.Default.FavoriteBorder, "Save")
+                                if(newsRowViewModel.isAlreadySaved.value == true){
+                                    Icon(Icons.Default.Favorite, "Remove")
+                                }else{
+                                    Icon(Icons.Default.FavoriteBorder, "Save")
+                                }
                             }
                         )
                     }
@@ -205,7 +216,7 @@ fun NewsRowPreview() {
             "",
             "",
             Source("", "The DeshBhakt"),
-            "Local Pigeon Caught Red-Feathered, Denies ",
+            "Local Pigeon Caught Red-Feathered, Denies city park pooping incident",
             "",
             ""
         )

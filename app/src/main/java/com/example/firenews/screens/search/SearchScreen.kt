@@ -1,6 +1,8 @@
 package com.example.firenews.screens.search
 
 import android.util.Log
+import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -54,6 +56,7 @@ fun SearchScreen(
         }
     ) {
         Column(Modifier.padding(10.dp)) {
+
             var searchQuery by remember {
                 mutableStateOf("")
             }
@@ -71,31 +74,38 @@ fun SearchScreen(
                     .padding(it)
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
-
-            val newsList = searchViewModel.newsList
-
-            Log.d("SearchScreen", "SearchScreen: ${newsList.size}")
-            LazyColumn(Modifier.fillMaxSize(), state = listState) {
-
-
-                itemsIndexed(newsList) { index, article ->
-
-                    if (index == searchViewModel.newsList.lastIndex) {
-                        searchViewModel.searchNextPage(searchQuery)
-
-                    }
-
-                    NewsRow(newsArticle = article)
+            if (searchViewModel.searchLoading) {
+                Box(Modifier.fillMaxSize()) {
+                    CircularProgressIndicator(Modifier.align(Alignment.Center))
                 }
-                if (searchViewModel.isPaginationLoading) {
-                    item {
-                        Box(Modifier.fillMaxSize()) {
-                            CircularProgressIndicator(Modifier.align(Alignment.BottomCenter))
+            } else {
+
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                val newsList = searchViewModel.newsList
+
+                Log.d("SearchScreen", "SearchScreen: ${newsList.size}")
+                LazyColumn(Modifier.fillMaxSize(), state = listState) {
+
+
+                    itemsIndexed(newsList) { index, article ->
+
+                        if (index == searchViewModel.newsList.lastIndex) {
+                            searchViewModel.searchNextPage(searchQuery)
+
+                        }
+
+                        NewsRow(newsArticle = article)
+                    }
+                    if (searchViewModel.isPaginationLoading) {
+                        item {
+                            Box(Modifier.fillMaxSize()) {
+                                CircularProgressIndicator(Modifier.align(Alignment.BottomCenter))
+                            }
                         }
                     }
                 }
-
             }
 
         }
