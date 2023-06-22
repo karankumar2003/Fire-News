@@ -2,11 +2,12 @@ package com.example.firenews.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.firenews.screens.home.HomeScreen
-import com.example.firenews.screens.NewsScreens
+import com.example.firenews.screens.AppScreens
 import com.example.firenews.screens.saved.SavedScreen
 import com.example.firenews.screens.search.SearchScreen
 import com.example.firenews.screens.setting.SettingScreen
@@ -14,7 +15,7 @@ import com.example.firenews.screens.setting.SettingScreen
 
 @Composable
 fun BottomNavHost(
-    authNavController:NavHostController,
+    mainNavController:NavHostController,
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
@@ -22,20 +23,20 @@ fun BottomNavHost(
 
     NavHost(
         navController = navController,
-        startDestination = NewsScreens.HomeScreen.name,
+        startDestination = AppScreens.HomeScreen.name,
         modifier = modifier
     ) {
 
-        composable(NewsScreens.HomeScreen.name) {
+        composable(AppScreens.HomeScreen.name) {
             HomeScreen(navController = navController)
         }
-        composable(NewsScreens.SavedScreen.name) {
+        composable(AppScreens.SavedScreen.name) {
             SavedScreen(navController)
         }
-        composable(NewsScreens.SettingScreen.name) {
-            SettingScreen(navController=navController,authNavController = authNavController)
+        composable(AppScreens.SettingScreen.name) {
+            SettingScreen(navController=navController, mainNavController = mainNavController)
         }
-        composable(NewsScreens.SearchScreen.name) {
+        composable(AppScreens.SearchScreen.name) {
             SearchScreen(navController= navController)
         }
     }

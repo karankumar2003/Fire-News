@@ -14,33 +14,32 @@ import androidx.navigation.compose.rememberNavController
 import com.example.firenews.navigation.BottomNavHost
 import com.example.firenews.navigation.BottomNavIcon
 import com.example.firenews.navigation.BottomNavigationBar
-import com.example.firenews.screens.NewsScreens
+import com.example.firenews.screens.AppScreens
 
 @Composable
-fun MainScreen(authNavController: NavHostController) {
-    //This is the outer navController( with logInScreen)
+fun MainScreen(mainNavController:NavHostController) {
 
 
     val navItems = listOf(
         BottomNavIcon(
             "Home",
-            NewsScreens.HomeScreen.name,
+            AppScreens.HomeScreen.name,
             Icons.Default.Home
         )
         ,
         BottomNavIcon(
             "Search",
-            NewsScreens.SearchScreen.name,
+            AppScreens.SearchScreen.name,
             Icons.Default.Search
         ),
         BottomNavIcon(
             "Saved",
-            NewsScreens.SavedScreen.name,
+            AppScreens.SavedScreen.name,
             Icons.Default.Favorite
         ),
         BottomNavIcon(
             "Settings",
-            NewsScreens.SettingScreen.name,
+            AppScreens.SettingScreen.name,
             Icons.Default.Settings
         )
     )
@@ -57,7 +56,7 @@ val navController = rememberNavController()
         }
     ) {
         BottomNavHost(
-            authNavController = authNavController,
+            mainNavController= mainNavController,
             navController = navController,
             modifier = Modifier.padding(it)
         )

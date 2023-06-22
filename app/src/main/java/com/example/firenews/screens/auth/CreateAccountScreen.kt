@@ -19,9 +19,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.firenews.screens.NewsScreens
+import com.example.firenews.navigation.AppGraphs
+import com.example.firenews.screens.AppScreens
 
 @Composable
 fun CreateAccountScreen(
@@ -48,7 +48,11 @@ fun CreateAccountScreen(
                 .padding(16.dp),
             onButtonClick = { email, password ->
                 authViewModel.createUserWithEmailAndPassword(email,password){
-                    navController.navigate(NewsScreens.MainScreen.name)
+                    navController.navigate(AppGraphs.Main.name){
+                        popUpTo(AppGraphs.Auth.name){
+                            inclusive = true
+                        }
+                    }
                 }
             },
             buttonText = "Create Account",

@@ -14,10 +14,10 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.firenews.R
-import com.example.firenews.screens.NewsScreens
+import com.example.firenews.navigation.AppGraphs
+import com.example.firenews.screens.AppScreens
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
-import javax.inject.Inject
 
 @Composable
 fun SplashScreen (navController: NavHostController) {
@@ -34,14 +34,14 @@ fun SplashScreen (navController: NavHostController) {
         delay(2500L)
 
         if (FirebaseAuth.getInstance().currentUser != null) {
-            navController.navigate(NewsScreens.MainScreen.name) {
-                popUpTo(NewsScreens.SplashScreen.name) {
+            navController.navigate(AppGraphs.Main.name) {
+                popUpTo(AppScreens.SplashScreen.name) {
                     inclusive = true
                 }
             }
         } else {
-            navController.navigate(NewsScreens.LogInScreen.name) {
-                popUpTo(NewsScreens.SplashScreen.name) {
+            navController.navigate(AppGraphs.Auth.name) {
+                popUpTo(AppScreens.SplashScreen.name) {
                     inclusive = true
                 }
             }

@@ -17,11 +17,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.firenews.components.NewsAppBar
-import com.example.firenews.screens.NewsScreens
+import com.example.firenews.navigation.AppGraphs
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun SettingScreen(navController: NavHostController, authNavController :NavHostController) {
+fun SettingScreen(navController: NavHostController, mainNavController: NavHostController) {
 
 
     Scaffold(
@@ -50,13 +50,11 @@ fun SettingScreen(navController: NavHostController, authNavController :NavHostCo
                             .getInstance()
                             .signOut()
 
-
-                        authNavController.navigate(NewsScreens.LogInScreen.name){
-                            popUpTo(authNavController.graph.startDestinationId){
-                                inclusive = true
+                        mainNavController.navigate(AppGraphs.Auth.name) {
+                            popUpTo(AppGraphs.Main.name) {
+                             inclusive = true
                             }
                         }
-
 
                     }
             ) {

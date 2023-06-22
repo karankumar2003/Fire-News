@@ -1,6 +1,6 @@
 package com.example.firenews.screens
 
-enum class NewsScreens {
+enum class AppScreens {
     HomeScreen,
     SavedScreen,
     SettingScreen,
