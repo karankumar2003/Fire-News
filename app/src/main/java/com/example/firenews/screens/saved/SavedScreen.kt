@@ -33,6 +33,7 @@ fun SavedScreen(navController: NavHostController,savedViewModel: SavedViewModel=
                     NewsRow(newsArticle = article)
                 }
 
+
             }
         }
     }
