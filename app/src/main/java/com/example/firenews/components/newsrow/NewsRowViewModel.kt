@@ -40,7 +40,6 @@ class NewsRowViewModel @Inject constructor(
             newsArticle.title,
             newsArticle.url,
             newsArticle.urlToImage,
-            time = System.currentTimeMillis(),
             uniqueIdentifier = uniqueIdentifier
         )
 

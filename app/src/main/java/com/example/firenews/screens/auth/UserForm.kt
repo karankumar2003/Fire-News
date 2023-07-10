@@ -41,6 +41,7 @@ import com.example.firenews.R
 fun UserForm(
     modifier: Modifier = Modifier,
     onButtonClick: (String, String) -> Unit,
+    onGoogleClick: () -> Unit,
     buttonText: String,
     newUserText: String,
     signUpText: String,
@@ -130,6 +131,23 @@ fun UserForm(
         ){
             Text(text = buttonText)
         }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Text("Or Sign in with")
+
+        Button(
+            onClick = {
+                onGoogleClick()
+            },
+            enabled = isValid,
+            modifier = Modifier.fillMaxWidth()
+
+        ){
+            Text(text = "Google")
+        }
+
+
 
         Spacer(modifier = Modifier.height(20.dp))
 

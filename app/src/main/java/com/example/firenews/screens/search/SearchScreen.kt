@@ -79,8 +79,6 @@ fun SearchScreen(
                     CircularProgressIndicator(Modifier.align(Alignment.Center))
                 }
             } else {
-
-
                 Spacer(modifier = Modifier.height(10.dp))
 
                 val newsList = searchViewModel.newsList

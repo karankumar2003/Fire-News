@@ -2,9 +2,9 @@ package com.example.firenews.components.newsrow
 
 import android.content.Intent
 import android.net.Uri
+import android.text.format.DateUtils
 import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -40,17 +40,25 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.rememberImagePainter
+import coil.compose.AsyncImagePainter
+import coil.compose.SubcomposeAsyncImage
+import coil.compose.SubcomposeAsyncImageContent
+import coil.request.CachePolicy
+import coil.request.ImageRequest
 import com.example.firenews.R
 import com.example.firenews.models.Article
 import com.example.firenews.models.Source
+import java.text.SimpleDateFormat
+import java.util.Date
 
 
+@OptIn()
 @Composable
 fun NewsRow(
     modifier: Modifier = Modifier,
@@ -89,7 +97,7 @@ fun NewsRow(
                         .weight(1f)
                 ) {
                     Text(
-                        newsArticle.title ?: "",
+                        newsArticle.title ?: newsArticle.description ?: "No Title",
                         modifier = Modifier,
                         style = MaterialTheme.typography.titleMedium,
                         overflow = TextOverflow.Ellipsis,
@@ -97,19 +105,32 @@ fun NewsRow(
                     )
                 }
 
+                val showImage = remember { mutableStateOf(true) }
 
-                Image(
-                    rememberImagePainter(newsArticle.urlToImage),
-                    contentDescription = "News Image",
-                    modifier = Modifier
-                        .height(90.dp)
-                        .width(120.dp)
-                        .align(Alignment.Top)
-                        .clip(RoundedCornerShape(12.dp)),
-                    contentScale = ContentScale.FillBounds
+                if (showImage.value) {
 
-                )
-
+                    SubcomposeAsyncImage(
+                        model = ImageRequest.Builder(context)
+                            .data(newsArticle.urlToImage)
+                            .memoryCachePolicy(CachePolicy.ENABLED)
+                            .diskCachePolicy(CachePolicy.ENABLED)
+                            .build(),
+                        contentDescription = "News Image",
+                        modifier = Modifier
+                            .height(90.dp)
+                            .width(120.dp)
+                            .align(Alignment.Top)
+                            .clip(RoundedCornerShape(12.dp)),
+                        contentScale = ContentScale.FillBounds
+                    ) {
+                        val state = painter.state
+                        if (state is AsyncImagePainter.State.Error) {
+                            showImage.value = false
+                        } else {
+                            SubcomposeAsyncImageContent()
+                        }
+                    }
+                }
             }
             Row(
                 modifier = Modifier
@@ -124,7 +145,7 @@ fun NewsRow(
                 }
 
                 Text(
-                    "${newsArticle.source?.name} • 1 Mar, 2023 ",
+                    "${newsArticle.source?.name} • ${newsArticle.publishedAt?.let { getPrettyDateString(timeString = it) }}",
                     modifier = Modifier,
                     style = MaterialTheme.typography.bodySmall
                 )
@@ -180,19 +201,19 @@ fun NewsRow(
                         )
                         DropdownMenuItem(text = {
                             newsRowViewModel.checkIfAlreadySaved(newsArticle)
-                            if(newsRowViewModel.isAlreadySaved.value == true){
+                            if (newsRowViewModel.isAlreadySaved.value == true) {
                                 Text("Remove From Saved")
-                            }else{
+                            } else {
                                 Text("Save Article")
                             }
                         },
                             onClick = {
-                                      newsRowViewModel.handleSaveArticle(newsArticle, context)
+                                newsRowViewModel.handleSaveArticle(newsArticle, context)
                             },
                             leadingIcon = {
-                                if(newsRowViewModel.isAlreadySaved.value == true){
+                                if (newsRowViewModel.isAlreadySaved.value == true) {
                                     Icon(Icons.Default.Favorite, "Remove")
-                                }else{
+                                } else {
                                     Icon(Icons.Default.FavoriteBorder, "Save")
                                 }
                             }
@@ -204,6 +225,26 @@ fun NewsRow(
             }
         }
     }
+}
+
+@Composable
+fun getPrettyDateString(timeString: String): String {
+
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+    val date = dateFormat.parse(timeString)
+    date?.let { 
+        return if (Date().time - date.time < DateUtils.MINUTE_IN_MILLIS) {
+            stringResource(id = R.string.just_now)
+        } else {
+            DateUtils.getRelativeTimeSpanString(
+                date.time,
+                Date().time,
+                0,
+                DateUtils.FORMAT_ABBREV_RELATIVE
+            ).toString()
+        }
+    }
+    return ""
 }
 
 @Preview(showBackground = true)

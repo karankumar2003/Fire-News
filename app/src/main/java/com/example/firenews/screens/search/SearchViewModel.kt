@@ -36,7 +36,7 @@ class SearchViewModel @Inject constructor(private val repository: NewsRepository
     fun searchNextPage(searchQuery:String) =
         viewModelScope.launch {
             isPaginationLoading = true
-            val response = repository.searchNews(searchQuery, page = 2)
+            val response = repository.searchNews(searchQuery, page = page)
             newsList += response.data?.articles ?: emptyList()
             isPaginationLoading = false
             page++

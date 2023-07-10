@@ -22,6 +22,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.firenews.navigation.AppGraphs
 import com.example.firenews.screens.AppScreens
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 
 @Composable
 fun LogInScreen(
@@ -61,6 +63,10 @@ fun LogInScreen(
             signUpText = "Sign Up",
             signUpTextOnClick = {
                 navController.navigate(AppScreens.CreateAccountScreen.name)
+            },
+            onGoogleClick = {
+
+
             }
         )
     }

@@ -51,7 +51,7 @@ val navController = rememberNavController()
         bottomBar = {
             BottomNavigationBar(
                 navController = navController,
-                items = navItems,
+                items = navItems
             )
         }
     ) {

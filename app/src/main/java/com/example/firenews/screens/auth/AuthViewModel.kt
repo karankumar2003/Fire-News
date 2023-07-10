@@ -1,11 +1,17 @@
 package com.example.firenews.screens.auth
 
+import android.content.Context
 import android.util.Log
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.firenews.R
 import com.example.firenews.models.MUser
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -98,5 +104,6 @@ class AuthViewModel @Inject constructor(private val firestore: FirebaseFirestore
             }
 
     }
+
 
 }

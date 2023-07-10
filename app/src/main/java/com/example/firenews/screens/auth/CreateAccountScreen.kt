@@ -60,7 +60,8 @@ fun CreateAccountScreen(
             signUpText = "Sign In",
             signUpTextOnClick = {
                 navController.navigateUp()
-            }
+            },
+            onGoogleClick = {}
         )
     }
 }

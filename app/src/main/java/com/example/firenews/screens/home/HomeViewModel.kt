@@ -46,7 +46,7 @@ class HomeViewModel @Inject constructor(private val repository: NewsRepository) 
     fun getNextPage() =
         viewModelScope.launch {
             isPaginationLoading = true
-            val newResponse = repository.getNews(page = 2)
+            val newResponse = repository.getNews(page = page)
             list.value += newResponse.data?.articles ?: emptyList()
             isPaginationLoading = false
             page++

@@ -15,7 +15,6 @@ data class Article(
     @get:PropertyName("url_to_image")
     @set:PropertyName("url_to_image")
     var urlToImage: String?,
-    var time: Long? = null,
     var uniqueIdentifier: String? = null
 ) {
     constructor() : this(
@@ -27,7 +26,6 @@ data class Article(
         title = null,
         url = null,
         urlToImage = null,
-        time = null,
         uniqueIdentifier = null
     )
 }
