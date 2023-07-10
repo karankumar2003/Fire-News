@@ -58,7 +58,6 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 
-@OptIn()
 @Composable
 fun NewsRow(
     modifier: Modifier = Modifier,
