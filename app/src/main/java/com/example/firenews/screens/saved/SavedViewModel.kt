@@ -21,20 +21,24 @@ class SavedViewModel @Inject constructor(
 
     fun getNewsInRealTime() {
         val currentUserId = auth.currentUser?.uid
+        Log.d("SavedViewModel","$currentUserId")
         firestore.collection("users").document(currentUserId!!).collection("articles")
-            .orderBy("time", Query.Direction.DESCENDING)
             .addSnapshotListener{ querySnapshot, firebaseFirestoreException ->
                 firebaseFirestoreException?.let {
                     Log.d("SavedViewModel", "realtimeUpdates: ${it.message}")
                     return@addSnapshotListener
                 }
+
+
                 querySnapshot?.let {
                     val list = mutableListOf<Article>()
                     for (articleDocument in querySnapshot) {
-                        list.add(articleDocument.toObject(Article::class.java))
+                        val article = articleDocument.toObject(Article::class.java)
+                        list.add(article)
                     }
                     savedNewsList.value = list
                 }
+
 
 
             }
