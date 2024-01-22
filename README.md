@@ -1,5 +1,5 @@
-# NewsApp
-NewsApp is a feature-rich Android application that allows users to read and save news articles from various sources.  
+# Fire News
+Fire News is a feature-rich Android application that allows users to read and save news articles from various sources.  
 The app is built using modern Android development technologies, including Jetpack Compose, Retrofit, Hilt, Coroutines, Firebase Authentication, Firebase Firestore, and Coil for efficient image loading.
 
 # Features
