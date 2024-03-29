@@ -20,7 +20,7 @@ The app is built using modern Android development technologies, including Jetpac
 * Handles network errors gracefully, ensuring a smooth and error-free user experience.
 
 # Technologies Used
-NewsApp leverages the following technologies and libraries:
+Fire News leverages the following technologies and libraries:
 
 ## Jetpack Compose
 A modern UI toolkit for building beautiful Android apps.
